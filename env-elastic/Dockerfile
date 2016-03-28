@@ -20,14 +20,16 @@ ENV SOFTWARE_DOWNLOAD_RETRIES=${SOFTWARE_DOWNLOAD_RETRIES:-10}
 ENV JAVA_HOME_BASE=${JAVA_HOME_BASE:-/opt}
 ENV JAVA_HOME $JAVA_HOME_BASE/jre
 ENV JRE_URL=${JRE_URL:-http://download.oracle.com/otn-pub/java/jdk/8u66-b17/server-jre-8u66-linux-x64.tar.gz}
+
+ENV GLIBC_URL https://github.com/7insyde/external-libraries/releases/download/1.0/glibc-2.21-r2.apk
+ENV GLIBC_BIN_URL https://github.com/7insyde/external-libraries/releases/download/1.0/glibc-bin-2.21-r2.apk
 ENV PATH $JAVA_HOME/bin:$PATH
 
 
-COPY tmp/* /tmp/
-
 # Install Java and Elastic
 RUN apk --update add curl && \
-	#wget -T $SOFTWARE_DOWNLOAD_TIMEOUT -q -P /tmp "https://github.com/7insyde/external-libs/releases/download/jre-libs/glibc-2.21-r2.apk" && \
+	curl -kL -o /tmp/glibc-2.21-r2.apk $GLIBC_URL && \
+	curl -kL -o /tmp/glibc-bin-2.21-r2.apk $GLIBC_BIN_URL && \
 	cd /tmp && apk add --allow-untrusted glibc-2.21-r2.apk glibc-bin-2.21-r2.apk && \
 	/usr/glibc/usr/bin/ldconfig /lib /usr/glibc/usr/lib && \
 	mkdir $JAVA_HOME_BASE && cd $JAVA_HOME_BASE && (curl --connect-timeout $SOFTWARE_DOWNLOAD_TIMEOUT --retry $SOFTWARE_DOWNLOAD_RETRIES -Lskj -b "oraclelicense=accept-securebackup-cookie" $JRE_URL | gunzip -c - | tar xf - ) && \
