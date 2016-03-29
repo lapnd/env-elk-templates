@@ -5,6 +5,7 @@ set -eo pipefail
 
 # Elastic ENV variables
 export ELASTIC_NAME=${ELASTIC_NAME:-elastic}
+
 # Commented cause using Docker Global values
 #export ELASTICSEARCH_HOST=${ELASTICSEARCH_HOST:-localhost}
 #export ELASTICSEARCH_PORT=${ELASTICSEARCH_PORT:-9200}
