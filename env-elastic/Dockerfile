@@ -5,7 +5,7 @@ MAINTAINER mrys@softserveinc.com
 ENV container docker
 
 # Set environment variables
-ENV ELASTIC_VERSION=${ELASTIC_VERSION:-2.1.1}
+ENV ELASTIC_VERSION=${ELASTIC_VERSION:-2.2.1}
 ENV ELASTIC_URL=${ELASTIC_URL:-https://download.elastic.co/elasticsearch/elasticsearch/elasticsearch-$ELASTIC_VERSION.tar.gz}
 ENV ELASTIC_BASE_PATH=${ELASTIC_BASE_PATH:-/opt}
 ENV ELASTIC_PATH $ELASTIC_BASE_PATH/elastic
@@ -85,7 +85,8 @@ RUN apk --update add curl && \
     rm -rf /tmp/* /var/cache/apk/*
 
 RUN cd $ELASTIC_PATH && \
-	./bin/plugin install royrusso/elasticsearch-HQ
+	./bin/plugin install royrusso/elasticsearch-HQ && \
+	./bin/plugin install discovery-multicast
 
 COPY docker-entrypoint.sh /
 RUN chmod 0755 /docker-entrypoint.sh
