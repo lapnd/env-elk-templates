@@ -20,9 +20,9 @@ fi
 
 # Elastic ENV variables
 export ELASTIC_NAME=${ELASTIC_NAME:-elastic}
-export ELASTIC_NODE_MASTER=${ELASTIC_NODE_MASTER:-true}
-export ELASTIC_NODE_DATA=${ELASTIC_NODE_DATA:-true}
-export ELASTIC_HTTP_ENABLE=${ELASTIC_HTTP_ENABLE:-true}
+export ELASTIC_NODE_MASTER=${ELASTIC_NODE_MASTER:-false}
+export ELASTIC_NODE_DATA=${ELASTIC_NODE_DATA:-false}
+export ELASTIC_HTTP_ENABLE=${ELASTIC_HTTP_ENABLE:-false}
 export ELASTIC_MULTICAST=${ELASTIC_MULTICAST:-true}
 
 # Create workiing folders and fix permissions
