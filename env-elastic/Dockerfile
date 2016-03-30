@@ -1,5 +1,5 @@
 FROM alpine:edge
-MAINTAINER mrys@softserveinc.com
+MAINTAINER Sergii Porokh <sporokh@softserveinc.com>
 
 # k8s
 ENV container docker
@@ -27,7 +27,7 @@ ENV PATH $JAVA_HOME/bin:$PATH
 
 
 # Install Java and Elastic
-RUN apk --update add curl && \
+RUN apk --update add curl openssl bash && \
 	curl -kL -o /tmp/glibc-2.21-r2.apk $GLIBC_URL && \
 	curl -kL -o /tmp/glibc-bin-2.21-r2.apk $GLIBC_BIN_URL && \
 	cd /tmp && apk add --allow-untrusted glibc-2.21-r2.apk glibc-bin-2.21-r2.apk && \
@@ -70,10 +70,7 @@ RUN apk --update add curl && \
 		$JAVA_HOME/jre/lib/jfr.jar \
 		$JAVA_HOME/jre/lib/jfr \
 		$JAVA_HOME/jre/lib/oblique-fonts && \
-	apk del curl libssh2 ca-certificates && \
 
-    apk update && apk upgrade && \
-    apk --update add openssl bash && \
     wget -T $SOFTWARE_DOWNLOAD_TIMEOUT -q -O /bin/gosu https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-amd64 && \
     chmod +x /bin/gosu && \
     mkdir -p $ELASTIC_BASE_PATH && \
@@ -88,9 +85,13 @@ RUN cd $ELASTIC_PATH && \
 	./bin/plugin install royrusso/elasticsearch-HQ && \
 	./bin/plugin install discovery-multicast
 
-COPY docker-entrypoint.sh /
-RUN chmod 0755 /docker-entrypoint.sh
+# Install Dashboards
+COPY dashboards /tmp/dashboards
 
+COPY docker-entrypoint.sh /
+RUN chmod 0755 /docker-entrypoint.sh /tmp/dashboards/load.sh
+
+# Copy Config
 COPY config $ELASTIC_PATH/config
 
 VOLUME ["/data/$ELASTIC_NAME"]
