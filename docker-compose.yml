@@ -50,6 +50,13 @@ logstash:
     - "5044"
   links:
     - elastic-client
+topbeat:
+  image: quay.io/7insyde/topbeat
+  container_name: topbeat
+  privileged: true
+  links:
+    - logstash
+
 
 
 
