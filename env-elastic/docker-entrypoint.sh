@@ -28,6 +28,11 @@ export ELASTIC_MULTICAST=${ELASTIC_MULTICAST:-true}
 # Create workiing folders and fix permissions
 mkdir -p /data/$ELASTIC_NAME/{data,logs}; chown -fR elastic:elastic /data/$ELASTIC_NAME
 
+# Run topbeat-dashboard script to set all the metrics to human-readable format
+if [ "${ELASTIC_HTTP_ENABLE}" = "true" ]; then
+      sleep 30 && /tmp/dashboards/load.sh -url "$ELASTIC_CLIENT_PORT_9200_TCP_ADDR:$ELASTIC_CLIENT_PORT_9200_TCP_PORT"&
+fi
+
 # Add elasticsearch as command if needed
 if [ "${1:0:1}" = '-' ]; then
 	set -- elasticsearch "$@"
