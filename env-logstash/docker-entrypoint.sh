@@ -1,5 +1,7 @@
 #!/bin/sh
 
+sed -i -e "s/__ELASTICSEARCH_HOST__/$ELASTIC_CLIENT_PORT_9200_TCP_ADDR/g" -e "s/__ELASTICSEARCH_PORT__/$ELASTIC_CLIENT_PORT_9200_TCP_PORT/g" "$LOGSTASH_CONFIG"
+
 # Drop root privileges if we are running logstash
 if [ "${3:0:8}" = 'logstash' ]; then
       exec gosu logstash_user "$@"
