@@ -43,3 +43,14 @@ kibana:
     - "5601:5601"
   links:
     - elastic-client
+logstash:
+  image: quay.io/7insyde/logstash
+  container_name: logstash
+  expose:
+    - "5044"
+  links:
+    - elastic-client
+
+
+
+
