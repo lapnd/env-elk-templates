@@ -24,13 +24,15 @@ export ELASTIC_NODE_MASTER=${ELASTIC_NODE_MASTER:-false}
 export ELASTIC_NODE_DATA=${ELASTIC_NODE_DATA:-false}
 export ELASTIC_HTTP_ENABLE=${ELASTIC_HTTP_ENABLE:-false}
 export ELASTIC_MULTICAST=${ELASTIC_MULTICAST:-true}
+export ELASTIC_CLIENT_NAME=${ELASTIC_CLIENT_NAME:-localhost}
+export ELASTIC_CLIENT_PORT=${ELASTIC_CLIENT_PORT:-9200}
 
 # Create workiing folders and fix permissions
 mkdir -p /data/$ELASTIC_NAME/{data,logs}; chown -fR elastic:elastic /data/$ELASTIC_NAME
 
 # Run topbeat-dashboard script to set all the metrics to human-readable format
 if [ "${ELASTIC_HTTP_ENABLE}" = "true" ]; then
-      sleep 30 && /tmp/dashboards/load.sh -url "$ELASTIC_CLIENT_PORT_9200_TCP_ADDR:$ELASTIC_CLIENT_PORT_9200_TCP_PORT"&
+      sleep 30 && /tmp/dashboards/load.sh -url "$ELASTIC_CLIENT_NAME:$ELASTIC_CLIENT_PORT"&
 fi
 
 # Add elasticsearch as command if needed
