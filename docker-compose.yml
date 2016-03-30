@@ -62,7 +62,7 @@ fluentd:
   ports:
     - "24224:24224"
   links:
-  - elastic-client
+    - elastic-client
 
 
 
