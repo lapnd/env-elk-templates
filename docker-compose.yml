@@ -56,6 +56,14 @@ topbeat:
   privileged: true
   links:
     - logstash
+fluentd:
+  image: quay.io/7insyde/fluentd
+  container_name: fluentd
+  ports:
+    - "24224:24224"
+  links:
+  - elastic-client
+
 
 
 
