@@ -4,12 +4,12 @@ elastic-master:
   ports:
       - "9300"
   environment:
-    - ELASTIC_NODE_MASTER=true
-    - ELASTIC_NODE_DATA=false
-    - ELASTIC_HTTP_ENABLE=false
-    - ELASTIC_MULTICAST=true
+      - ELASTIC_NODE_MASTER=true
+      - ELASTIC_NODE_DATA=false
+      - ELASTIC_HTTP_ENABLE=false
+      - ELASTIC_MULTICAST=true
   volumes:
-    - /data/elastic:/data/elastic
+      - /data/elastic:/data/elastic
 elastic-client:
   image: quay.io/7insyde/elastic
   container_name: elastic-client
@@ -17,24 +17,24 @@ elastic-client:
       - "9200:9200"
       - "9300"
   environment:
-    - ELASTIC_NODE_MASTER=false
-    - ELASTIC_NODE_DATA=false
-    - ELASTIC_HTTP_ENABLE=true
-    - ELASTIC_MULTICAST=true
+      - ELASTIC_NODE_MASTER=false
+      - ELASTIC_NODE_DATA=false
+      - ELASTIC_HTTP_ENABLE=true
+      - ELASTIC_MULTICAST=true
   volumes:
-    - /data/elastic:/data/elastic
+      - /data/elastic:/data/elastic
 elastic-data:
   image: quay.io/7insyde/elastic
   container_name: elastic-data
   ports:
       - "9300"
   environment:
-    - ELASTIC_NODE_MASTER=false
-    - ELASTIC_NODE_DATA=true
-    - ELASTIC_HTTP_ENABLE=false
-    - ELASTIC_MULTICAST=true
+      - ELASTIC_NODE_MASTER=false
+      - ELASTIC_NODE_DATA=true
+      - ELASTIC_HTTP_ENABLE=false
+      - ELASTIC_MULTICAST=true
   volumes:
-    - /data/elastic:/data/elastic
+      - /data/elastic:/data/elastic
 kibana:
   image: quay.io/7insyde/kibana
   container_name: kibana
