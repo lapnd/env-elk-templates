@@ -82,7 +82,7 @@ COPY etc/logstash.conf $LOGSTASH_CONFIG
 COPY docker-entrypoint.sh /
 RUN chmod 0755 /docker-entrypoint.sh
 
-EXPOSE 5044 5044/udp 8080
+EXPOSE 5044 5044/udp 8080 12201/udp
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
 
