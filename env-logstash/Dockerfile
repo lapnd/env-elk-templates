@@ -74,17 +74,20 @@ RUN apk --update add bash curl && \
     && ln -s /opt/$LOGSTASH_NAME-$LOGSTASH_VERSION /opt/$LOGSTASH_NAME \
     && rm -rf /tmp/*.tar.gz /var/cache/apk/*
 
+RUN apk add --update --repository http://dl-1.alpinelinux.org/alpine/edge/community/ tini
+
 # Dedicate plugin install to another RUN layer
 RUN /opt/logstash/bin/plugin install logstash-input-beats
 
 COPY etc/logstash.conf $LOGSTASH_CONFIG
 
-COPY docker-entrypoint.sh /
-RUN chmod 0755 /docker-entrypoint.sh
+COPY entrypoint.sh /
+RUN chmod 0755 /entrypoint.sh
 
 EXPOSE 5044 5044/udp 8080 12201/udp
 
-ENTRYPOINT ["/docker-entrypoint.sh"]
+ENTRYPOINT ["/entrypoint.sh"]
+#ENTRYPOINT ["/usr/bin/tini", "--"]
 
 # CMD used without array syntax for interpolation of the $LOGSTASH_CONFIG
 CMD logstash -f $LOGSTASH_CONFIG
