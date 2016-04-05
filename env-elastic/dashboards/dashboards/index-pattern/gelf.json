@@ -1,5 +1,5 @@
 {
-  "fields": "[
+"fields": "[
   {\"name\":\"request\",\"type\":\"string\",\"count\":0,\"scripted\":false,\"indexed\":true,\"analyzed\":false,\"doc_values\":true},
   {\"name\":\"_index\",\"type\":\"string\",\"count\":0,\"scripted\":false,\"indexed\":false,\"analyzed\":false,\"doc_values\":false},
   {\"name\":\"auth\",\"type\":\"string\",\"count\":0,\"scripted\":false,\"indexed\":true,\"analyzed\":false,\"doc_values\":true},
@@ -39,6 +39,6 @@
   {\"name\":\"_type\",\"type\":\"string\",\"count\":0,\"scripted\":false,\"indexed\":false,\"analyzed\":false,\"doc_values\":false},
   {\"name\":\"_score\",\"type\":\"number\",\"count\":0,\"scripted\":false,\"indexed\":false,\"analyzed\":false,\"doc_values\":false}
   ]",
-  "timeFieldName": "@timestamp",
-  "title": "gelf-*"
+"timeFieldName": "@timestamp",
+"title": "gelf-*"
 }
