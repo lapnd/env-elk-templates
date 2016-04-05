@@ -18,3 +18,5 @@ http.enabled: ${ELASTIC_HTTP_ENABLE}
 
 discovery.zen.ping.multicast.enabled: ${ELASTIC_MULTICAST}
 discovery.zen.ping.multicast.address: _eth0:ipv4_
+
+index.analysis.analyzer.default.type: keyword
