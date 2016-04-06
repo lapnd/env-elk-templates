@@ -46,6 +46,8 @@ kibana:
 logstash:
   image: quay.io/7insyde/logstash
   container_name: logstash
+  ports:
+    - "12201:12201/udp"
   expose:
     - "5044"
   links:
@@ -63,9 +65,3 @@ fluentd:
     - "24224:24224"
   links:
     - elastic-client
-
-
-
-
-
-
