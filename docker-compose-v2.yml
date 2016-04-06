@@ -1,0 +1,98 @@
+version: '2'
+services:
+  elastic-master:
+    image: quay.io/7insyde/elastic
+    container_name: elastic-master
+    expose:
+      - "9300"
+    environment:
+    - ELASTIC_NODE_MASTER=true
+    - ELASTIC_NODE_DATA=false
+    - ELASTIC_HTTP_ENABLE=false
+    - ELASTIC_MULTICAST=true
+    volumes:
+    - /data/elastic:/data/elastic
+    networks:
+    - local
+  elastic-client:
+    image: quay.io/7insyde/elastic
+    container_name: elastic-client
+    ports:
+      - "9200:9200"
+    expose:
+      - "9300"
+    environment:
+    - ELASTIC_NODE_MASTER=false
+    - ELASTIC_NODE_DATA=false
+    - ELASTIC_HTTP_ENABLE=true
+    - ELASTIC_MULTICAST=true
+    volumes:
+    - /data/elastic:/data/elastic
+    networks:
+    - local
+  elastic-data:
+    image: quay.io/7insyde/elastic
+    container_name: elastic-data
+    expose:
+      - "9300"
+    environment:
+    - ELASTIC_NODE_MASTER=false
+    - ELASTIC_NODE_DATA=true
+    - ELASTIC_HTTP_ENABLE=false
+    - ELASTIC_MULTICAST=true
+    volumes:
+    - /data/elastic:/data/elastic
+    networks:
+    - local
+  kibana:
+    image: quay.io/7insyde/kibana
+    container_name: kibana
+    ports:
+      - "5601:5601"
+    links:
+      - elastic-client
+    environment:
+      - ELASTIC_CLIENT_PORT_9200_TCP_ADDR=elastic-client
+      - ELASTIC_CLIENT_PORT_9200_TCP_PORT=9200
+    networks:
+    - local
+  logstash:
+    image: quay.io/7insyde/logstash
+    container_name: logstash
+    ports:
+      - "12201:12201/udp"
+    expose:
+      - "5044"
+    links:
+      - elastic-client
+    environment:
+      - ELASTIC_CLIENT_PORT_9200_TCP_ADDR=elastic-client
+      - ELASTIC_CLIENT_PORT_9200_TCP_PORT=9200
+    networks:
+    - local
+  topbeat:
+    image: quay.io/7insyde/topbeat
+    container_name: topbeat
+    privileged: true
+    links:
+      - logstash
+    environment:
+      - LOGSTASH_PORT_9200_TCP_ADDR=logstash
+      - LOGSTASH_PORT_9200_TCP_PORT=5044
+    networks:
+    - local
+  fluentd:
+    image: quay.io/7insyde/fluentd
+    container_name: fluentd
+    ports:
+      - "24224:24224"
+    links:
+    - elastic-client
+    environment:
+      - ELASTIC_CLIENT_PORT_9200_TCP_ADDR=elastic-client
+      - ELASTIC_CLIENT_PORT_9200_TCP_PORT=9200
+    networks:
+    - local
+networks:
+  local:
+    driver: bridge
