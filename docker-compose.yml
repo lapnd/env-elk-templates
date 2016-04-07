@@ -8,8 +8,6 @@ elastic-master:
   - ELASTIC_NODE_DATA=false
   - ELASTIC_HTTP_ENABLE=false
   - ELASTIC_MULTICAST=true
-  volumes:
-  - /data/elastic:/data/elastic
 elastic-client:
   image: quay.io/7insyde/elastic
   container_name: elastic-client
@@ -22,8 +20,6 @@ elastic-client:
   - ELASTIC_NODE_DATA=false
   - ELASTIC_HTTP_ENABLE=true
   - ELASTIC_MULTICAST=true
-  volumes:
-  - /data/elastic:/data/elastic
 elastic-data:
   image: quay.io/7insyde/elastic
   container_name: elastic-data

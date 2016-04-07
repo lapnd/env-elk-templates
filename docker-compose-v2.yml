@@ -10,8 +10,6 @@ services:
     - ELASTIC_NODE_DATA=false
     - ELASTIC_HTTP_ENABLE=false
     - ELASTIC_MULTICAST=true
-    volumes:
-    - /data/elastic:/data/elastic
     networks:
     - 7insyde
   elastic-client:
@@ -26,8 +24,6 @@ services:
     - ELASTIC_NODE_DATA=false
     - ELASTIC_HTTP_ENABLE=true
     - ELASTIC_MULTICAST=true
-    volumes:
-    - /data/elastic:/data/elastic
     networks:
     - 7insyde
   elastic-data:
